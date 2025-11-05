@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streetwear | Galería</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #ffffff;
+            background-color: #000000;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        .streetwear-background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 75%);
+        }
+
+        .streetwear-background::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+            background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0px, rgba(255, 255, 255, 0.04) 1px, transparent 1px, transparent 3px);
+            background-size: 3px 3px; opacity: 0.8;
+        }
+
+        .content {
+            z-index: 1; text-align: center; padding: 50px 20px 30px; 
+            background: rgba(0, 0, 0, 0.7); 
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+        }
+
+        .content h1 {
+            font-size: 6em; margin: 0; font-weight: 900; letter-spacing: 5px; text-transform: uppercase;
+            color: #B30000; text-shadow: 0 0 15px rgba(179, 0, 0, 0.9);
+        }
+
+        .content p.credits {
+            margin-top: 15px; 
+            font-size: 2.2em; 
+            letter-spacing: 1px; 
+            color: #ccc;
+            font-family: 'Dancing Script', cursive; 
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px; 
+        }
+
+        .info-section {
+            z-index: 1;
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            background: rgba(26, 26, 26, 0.9);
+            border-left: 5px solid #B30000; 
+            text-align: left;
+            box-shadow: 0 0 15px rgba(179, 0, 0, 0.5);
+        }
+
+        .info-section h2 {
+            font-size: 1.8em;
+            color: #B30000;
+            text-transform: uppercase;
+            margin-top: 0;
+            border-bottom: 1px solid rgba(179, 0, 0, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-section li {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            color: #e0e0e0;
+        }
+
+        .info-section li::before {
+            content: "»";
+            color: #B30000;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+            position: absolute;
+            left: 0;
+        }
+
+        .info-section strong {
+            color: #fff;
+        }
+
+        .gallery-container {
+            z-index: 1;
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid rgba(179, 0, 0, 0.5);
+            box-shadow: 0 0 25px rgba(179, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 4px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(179, 0, 0, 0.5);
+            border: 2px solid #222;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 1), 0 0 20px #B30000;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* PROBADOR */
+        .probador {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .probador h2 {
+            color: #B30000;
+            text-transform: uppercase;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .prenda-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .flecha {
+            font-size: 40px;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.2s;
+        }
+
+        .flecha:hover {
+            color: #B30000;
+            transform: scale(1.2);
+        }
+
+        .prenda {
+            width: 250px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(179, 0, 0, 0.5);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .prenda.fade {
+            opacity: 0.7;
+            transform: scale(0.95);
+        }
+
+        .contador {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .content h1 { font-size: 4em; }
+            .content p.credits { font-size: 1.8em; }
+            .gallery-container { grid-template-columns: 1fr; width: 95%; }
+            .gallery-item img { height: 300px; }
+            .info-section { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="streetwear-background"></div>
+    <div class="content">
+        <h1>Streetwear</h1>
+        <p class="credits">Agustin Lopez - Agustin Luna</p>
+    </div>
+
+    <div class="info-section">
+        <center><h1>"Streetwear origen"</h1></center>
+        <ul>
+            <li>Nació en las playas de California en los años 80, impulsado por la cultura del surf y el skate.</li>
+            <li>Se fusionó rápidamente con la cultura del Hip-Hop de Nueva York, la música punk y el deporte.</li>
+            <li>Es reconocida por la ropa informal (sudaderas, gorras, zapatillas) y una fuerte conexión con la autenticidad y la identidad juvenil.</li>
+        </ul>
+    </div>
+
+    <div class="gallery-container">
+        <div class="gallery-item"><img src="img-Streatwear/s1.jpg" alt="Streetwear Outfit 1"></div>
+        <div class="gallery-item"><img src="img-Streatwear/s2.jpg" alt="Streetwear Outfit 2"></div>
+        <div class="gallery-item"><img src="img-Streatwear/s3.jpg" alt="Streetwear Outfit 3"></div>
+        <div class="gallery-item"><img src="img-Streatwear/s4.jpg" alt="Streetwear Outfit 4"></div>
+        <div class="gallery-item"><img src="img-Streatwear/s5.jpg" alt="Streetwear Outfit 5"></div>
+        <div class="gallery-item"><img src="img-Streatwear/s6.jpg" alt="Streetwear Outfit 6"></div>
+    </div>
+
+    <!-- 🧢 PROBADOR DE ROPA -->
+    <div class="probador">
+        <h2>Probador Streetwear</h2>
+
+        <!-- Remera -->
+        <div class="prenda-container">
+            <div class="flecha" onclick="cambiarPrenda('remera', -1)">&#9664;</div>
+            <img id="remera" class="prenda" src="img-Streatwear/r1.jpg" alt="Remera">
+            <div class="flecha" onclick="cambiarPrenda('remera', 1)">&#9654;</div>
+        </div>
+        <div class="contador" id="contadorRemera">1 de 4</div>
+
+        <!-- Pantalón / Short -->
+        <div class="prenda-container">
+            <div class="flecha" onclick="cambiarPrenda('pierna', -1)">&#9664;</div>
+            <img id="pierna" class="prenda" src="img-Streatwear/p1.jpg" alt="Pantalón/Short">
+            <div class="flecha" onclick="cambiarPrenda('pierna', 1)">&#9654;</div>
+        </div>
+        <div class="contador" id="contadorPierna">1 de 8</div>
+    </div>
+
+    <script>
+        const prendas = {
+            remera: ["img-Streatwear/r1.jpg", "img-Streatwear/r2.jpg", "img-Streatwear/r3.jpg", "img-Streatwear/r4.jpg"],
+            pierna: ["img-Streatwear/p1.jpg","img-Streatwear/p2.jpg","img-Streatwear/p3.jpg","img-Streatwear/p4.jpg","img-Streatwear/p5.jpg","img-Streatwear/p6.jpg","img-Streatwear/p7.jpg","img-Streatwear/p8.jpg"]
+        };
+
+        const indices = { remera: 0, pierna: 0 };
+
+        function cambiarPrenda(tipo, direccion) {
+            const img = document.getElementById(tipo);
+            const contador = document.getElementById(`contador${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`);
+            img.classList.add('fade');
+            setTimeout(() => {
+                indices[tipo] = (indices[tipo] + direccion + prendas[tipo].length) % prendas[tipo].length;
+                img.src = prendas[tipo][indices[tipo]];
+                contador.textContent = `${indices[tipo] + 1} de ${prendas[tipo].length}`;
+                img.classList.remove('fade');
+            }, 200);
+        }
+    </script>
+</body>
+</html>
